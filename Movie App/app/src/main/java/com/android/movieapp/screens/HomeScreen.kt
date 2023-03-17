@@ -1,6 +1,5 @@
 package com.android.movieapp.screens
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -19,7 +18,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.android.movieapp.navigation.MovieScreens
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun HomeScreen(navController: NavController){
     Scaffold(topBar = {
@@ -30,19 +28,22 @@ fun HomeScreen(navController: NavController){
             Text(text = "영화 목록")
         }
     }) {
-        MainContent(navController = navController)
+        MainContent(
+            modifier = Modifier.padding(it),
+            navController = navController)
     }
 }
 
 @Composable
 fun MainContent(
+    modifier: Modifier,
     navController: NavController,
     movieList: List<String> = listOf(
         "1", "2", "3", "4", "5"
     )
 ) {
-    Column(modifier = Modifier.padding(12.dp)) {
-        LazyColumn {
+    Column(modifier = modifier) {
+        LazyColumn (modifier = Modifier.padding(12.dp)) {
             items(items = movieList) {
                 MovieRow(movie = it) {movie ->
                     navController.navigate(route = MovieScreens.DetailsScreen.name+"/$movie")

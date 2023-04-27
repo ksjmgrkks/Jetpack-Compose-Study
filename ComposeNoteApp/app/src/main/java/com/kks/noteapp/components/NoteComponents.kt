@@ -10,6 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
+import com.kks.noteapp.ui.theme.SkyBlue
+import com.kks.noteapp.ui.theme.ThemeSkyBlue
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -24,7 +26,13 @@ fun NoteInputText(
     val keyboardController = LocalSoftwareKeyboardController.current
     TextField(value = text,
         onValueChange = onTextChange,
-        colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.Transparent),
+        colors = TextFieldDefaults.textFieldColors(
+            backgroundColor = Color.Transparent,
+            textColor = Color.Black,
+            cursorColor = ThemeSkyBlue,
+            focusedLabelColor = MaterialTheme.colors.primary,
+            placeholderColor = Color.Gray
+        ),
         maxLines = maxLine,
         label = { Text(text = label) },
         keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),

@@ -1,6 +1,5 @@
 package com.kks.noteapp.screen
 
-import android.content.res.Resources
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,7 +23,7 @@ import com.kks.noteapp.components.NoteButton
 import com.kks.noteapp.components.NoteInputText
 import com.kks.noteapp.data.NoteDataSource
 import com.kks.noteapp.model.Note
-import com.kks.noteapp.ui.theme.skyBlue
+import com.kks.noteapp.ui.theme.SkyBlue
 import com.kks.noteapp.util.formatDate
 
 @Composable
@@ -42,12 +41,13 @@ fun NoteScreen(
 
     Column(modifier = Modifier.padding(6.dp)) {
         TopAppBar(title = {
-                          Text(text = stringResource(id = R.string.app_name))
+                          Text(text = stringResource(id = R.string.app_name),
+                              color = Color.Black,)
         },
             actions = {
                 Icon(imageVector = Icons.Rounded.Notifications, contentDescription = "Icon")
             },
-        backgroundColor = skyBlue
+        backgroundColor = SkyBlue
         )
 
         //Content
@@ -85,7 +85,7 @@ fun NoteScreen(
 
             NoteButton(
                 text = "기록하기",
-                backgroundColor = skyBlue,
+                backgroundColor = SkyBlue,
                 contentColor = Color.Black,
                 onClick = {
                     if (title.isNotEmpty() && description.isNotEmpty()) {
@@ -116,17 +116,23 @@ fun NoteRow(
             .padding(4.dp)
             .clip(RoundedCornerShape(topEnd = 33.dp, bottomStart = 33.dp))
             .fillMaxWidth(),
-        color = skyBlue,
+        color = SkyBlue,
         elevation = 6.dp) {
         Column(modifier
             .clickable { onNoteClicked(note) }
             .padding(horizontal = 14.dp, vertical = 6.dp),
             horizontalAlignment = Alignment.Start) {
             Text(text = note.title,
-                style = MaterialTheme.typography.subtitle2)
-            Text(text = note.description, style = MaterialTheme.typography.subtitle1)
-            Text(text = formatDate(note.entryDate.time),
-                style = MaterialTheme.typography.caption)
+                style = MaterialTheme.typography.subtitle2,
+                color = Color.Black)
+            Text(text = note.description,
+                style = MaterialTheme.typography.subtitle1,
+                color = Color.Black)
+            Text(
+                text = formatDate(note.entryDate.time),
+                style = MaterialTheme.typography.caption,
+                color = Color.Black,
+            )
         }
     }
 }

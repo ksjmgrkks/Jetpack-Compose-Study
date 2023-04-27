@@ -18,9 +18,14 @@ import androidx.compose.ui.unit.dp
 import com.kks.noteapp.R
 import com.kks.noteapp.components.NoteButton
 import com.kks.noteapp.components.NoteInputText
+import com.kks.noteapp.model.Note
 
 @Composable
-fun NoteScreen(){
+fun NoteScreen(
+    notes: List<Note>,
+    onAddNote: (Note) -> Unit,
+    onRemoveNote: (Note) -> Unit
+){
     var title by remember {
         mutableStateOf("")
     }
@@ -70,7 +75,11 @@ fun NoteScreen(){
                         description = it
                 })
 
-            NoteButton(text = "기록하기", onClick = {  })
+            NoteButton(
+                text = "기록하기",
+                backgroundColor = Color(0xFFB3D1E9),
+                contentColor = Color.Black,
+                onClick = {  })
 
         }
         
@@ -81,5 +90,5 @@ fun NoteScreen(){
 @Preview(showBackground = true)
 @Composable
 fun NotesScreenPreview(){
-    NoteScreen()
+    NoteScreen(notes = emptyList(), onAddNote = {}, onRemoveNote = {})
 }

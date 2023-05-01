@@ -4,17 +4,12 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.kks.noteapp.data.NoteDataSource
-import com.kks.noteapp.model.Note
 import com.kks.noteapp.screen.NoteScreen
 import com.kks.noteapp.screen.NoteViewModel
 import com.kks.noteapp.ui.theme.ComposeNoteAppTheme
@@ -36,7 +31,7 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun NotesApp(noteViewModel: NoteViewModel = viewModel()){
-        val noteList = noteViewModel.getAllNotes()
+        val noteList = noteViewModel.noteList.collectAsState().value
 
         NoteScreen(
             notes = noteList,

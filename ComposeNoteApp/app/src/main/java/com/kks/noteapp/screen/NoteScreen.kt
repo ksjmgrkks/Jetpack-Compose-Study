@@ -18,12 +18,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kks.noteapp.R
 import com.kks.noteapp.components.NoteButton
 import com.kks.noteapp.components.NoteInputText
-import com.kks.noteapp.data.NoteDataSource
 import com.kks.noteapp.model.Note
 import com.kks.noteapp.ui.theme.SkyBlue
 import com.kks.noteapp.util.formatDate
@@ -122,8 +120,9 @@ fun NoteRow(
             .fillMaxWidth(),
         color = SkyBlue,
         elevation = 6.dp) {
+        var showDialog by remember { mutableStateOf(false) }
         Column(modifier
-            .clickable { onNoteClicked(note) }
+            .clickable { showDialog = true }
             .padding(horizontal = 14.dp, vertical = 6.dp),
             horizontalAlignment = Alignment.Start) {
             Text(text = note.title,
@@ -138,11 +137,25 @@ fun NoteRow(
                 color = Color.Black,
             )
         }
+        if (showDialog) {
+            AlertDialog(
+                onDismissRequest = { showDialog = false },
+                title = { Text("삭제") },
+                text = { Text("선택한 항목을 삭제하시겠습니까?") },
+                confirmButton = {
+                    Button(onClick = {
+                        showDialog = false
+                        onNoteClicked(note)
+                    }) {
+                        Text("네")
+                    }
+                },
+                dismissButton = {
+                    Button(onClick = { showDialog = false }) {
+                        Text("아니오")
+                    }
+                }
+            )
+        }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun NotesScreenPreview(){
-    NoteScreen(notes = NoteDataSource().loadNotes(), onAddNote = {}, onRemoveNote = {})
 }

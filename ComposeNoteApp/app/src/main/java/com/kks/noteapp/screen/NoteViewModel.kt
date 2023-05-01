@@ -1,5 +1,6 @@
 package com.kks.noteapp.screen
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kks.noteapp.model.Note
@@ -29,7 +30,10 @@ class NoteViewModel @Inject constructor(private val repository: NoteRepository) 
     }
 
     fun addNote(note: Note) = viewModelScope.launch { repository.addNote(note) }
-    fun updateNote(note: Note) = viewModelScope.launch { repository.updateNote(note) }
+    fun updateNote(note: Note) = viewModelScope.launch {
+        Log.d("kks", "updateNote2: ${note.id}, ${note.title}")
+        repository.updateNote(note)
+    }
     fun removeNote(note: Note) = viewModelScope.launch { repository.deleteNote(note) }
 
     fun removeAllNote() = viewModelScope.launch { repository.deleteAllNotes() }

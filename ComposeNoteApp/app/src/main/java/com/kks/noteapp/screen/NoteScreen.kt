@@ -1,17 +1,14 @@
 package com.kks.noteapp.screen
 
 import android.widget.Toast
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Delete
-import androidx.compose.material.icons.rounded.Notifications
+import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,6 +18,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.kks.noteapp.R
+import com.kks.noteapp.components.EditNoteDialog
 import com.kks.noteapp.components.NoteButton
 import com.kks.noteapp.components.NoteInputText
 import com.kks.noteapp.model.Note
@@ -33,7 +31,8 @@ fun NoteScreen(
     notes: List<Note>,
     onAddNote: (Note) -> Unit,
     onRemoveNote: (Note) -> Unit,
-    onRemoveAllNote: () -> Unit
+    onRemoveAllNote: () -> Unit,
+    onUpdateNote: (Note) -> Unit
 ){
     var title by remember {
         mutableStateOf("")
@@ -41,7 +40,6 @@ fun NoteScreen(
     var description by remember {
         mutableStateOf("")
     }
-    val context = LocalContext.current
 
     Column(modifier = Modifier.padding(6.dp)) {
         TopAppBar(title = {
@@ -96,12 +94,7 @@ fun NoteScreen(
                 ),
                 text = title,
                 label = "제목",
-                onTextChange = {
-                    if (it.all { char ->
-                            char.isLetter() || char.isWhitespace()
-                        })
-                        title = it
-                })
+                onTextChange = { title = it })
 
             NoteInputText(
                 modifier = Modifier.padding(
@@ -110,12 +103,7 @@ fun NoteScreen(
                 ),
                 text = description,
                 label = "내용",
-                onTextChange = {
-                    if (it.all { char ->
-                            char.isLetter() || char.isWhitespace()
-                        })
-                        description = it
-                })
+                onTextChange = { description = it })
 
             NoteButton(
                 text = "기록하기",
@@ -126,16 +114,16 @@ fun NoteScreen(
                         onAddNote(Note(title = title, description = description))
                         title = ""
                         description = ""
-                        Toast.makeText(context, "노트가 기록되었습니다.", Toast.LENGTH_SHORT).show()
                     }
                 })
         }
         Divider(modifier = Modifier.padding(10.dp))
         LazyColumn {
             items(notes) { note ->
-                NoteRow(note = note, onNoteClicked = {
-                    onRemoveNote(note)
-                })
+                NoteRow(
+                    note = note,
+                    onNoteClicked = { onRemoveNote(it) },
+                    onNoteUpdated = { onUpdateNote(it) })
             }
         }
     }
@@ -145,7 +133,8 @@ fun NoteScreen(
 fun NoteRow(
     modifier: Modifier = Modifier,
     note: Note,
-    onNoteClicked: (Note) -> Unit) {
+    onNoteClicked: (Note) -> Unit,
+    onNoteUpdated: (Note) -> Unit) {
     Surface(
         modifier
             .padding(4.dp)
@@ -153,14 +142,46 @@ fun NoteRow(
             .fillMaxWidth(),
         color = SkyBlue,
         elevation = 6.dp) {
-        var showDialog by remember { mutableStateOf(false) }
+        var showDeleteNoteDialog by remember { mutableStateOf(false) }
+        var showEditNoteDialog by remember { mutableStateOf(false) }
         Column(modifier
-            .clickable { showDialog = true }
             .padding(horizontal = 14.dp, vertical = 6.dp),
             horizontalAlignment = Alignment.Start) {
-            Text(text = note.title,
-                style = MaterialTheme.typography.subtitle2,
-                color = Color.Black)
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.End,
+            ) {
+                Row(
+                    modifier = Modifier.weight(1f),
+                    horizontalArrangement = Arrangement.Start,
+                ) {
+                    Text(
+                        text = note.title,
+                        style = MaterialTheme.typography.subtitle2,
+                        color = Color.Black,
+                    )
+                }
+                IconButton(
+                    onClick = { showDeleteNoteDialog = true },
+                    modifier = Modifier.size(24.dp),
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.Delete,
+                        contentDescription = "Delete Icon",
+                        tint = ThemeSkyBlue,
+                    )
+                }
+                IconButton(
+                    onClick = { showEditNoteDialog = true },
+                    modifier = Modifier.size(24.dp),
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.Edit,
+                        contentDescription = "Edit Icon",
+                        tint = ThemeSkyBlue,
+                    )
+                }
+            }
             Text(text = note.description,
                 style = MaterialTheme.typography.subtitle1,
                 color = Color.Black)
@@ -170,24 +191,34 @@ fun NoteRow(
                 color = Color.Black,
             )
         }
-        if (showDialog) {
+        if (showDeleteNoteDialog) {
             AlertDialog(
-                onDismissRequest = { showDialog = false },
+                onDismissRequest = { showDeleteNoteDialog = false },
                 title = { Text("삭제") },
                 text = { Text("선택한 항목을 삭제하시겠습니까?") },
                 confirmButton = {
                     Button(onClick = {
-                        showDialog = false
+                        showDeleteNoteDialog = false
                         onNoteClicked(note)
                     }) {
                         Text("예")
                     }
                 },
                 dismissButton = {
-                    Button(onClick = { showDialog = false }) {
+                    Button(onClick = { showDeleteNoteDialog = false }) {
                         Text("아니요")
                     }
                 }
+            )
+        }
+        if (showEditNoteDialog) {
+            EditNoteDialog(
+                note = note,
+                onDismiss = { showEditNoteDialog = false },
+                onSave = {
+                    onNoteUpdated(it)
+                    showEditNoteDialog = false
+                },
             )
         }
     }

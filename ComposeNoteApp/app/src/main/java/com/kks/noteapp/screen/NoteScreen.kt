@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Notifications
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -24,13 +25,15 @@ import com.kks.noteapp.components.NoteButton
 import com.kks.noteapp.components.NoteInputText
 import com.kks.noteapp.model.Note
 import com.kks.noteapp.ui.theme.SkyBlue
+import com.kks.noteapp.ui.theme.ThemeSkyBlue
 import com.kks.noteapp.util.formatDate
 
 @Composable
 fun NoteScreen(
     notes: List<Note>,
     onAddNote: (Note) -> Unit,
-    onRemoveNote: (Note) -> Unit
+    onRemoveNote: (Note) -> Unit,
+    onRemoveAllNote: () -> Unit
 ){
     var title by remember {
         mutableStateOf("")
@@ -46,7 +49,37 @@ fun NoteScreen(
                               color = Color.Black,)
         },
             actions = {
-                Icon(imageVector = Icons.Rounded.Notifications, contentDescription = "Icon")
+                var showDialog by remember { mutableStateOf(false) }
+                IconButton(
+                    onClick = { showDialog = true }
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.Delete,
+                        contentDescription = "노트 전체 삭제 아이콘",
+                        tint = ThemeSkyBlue,
+                    )
+                }
+
+                if (showDialog) {
+                    AlertDialog(
+                        onDismissRequest = { showDialog = false },
+                        title = { Text("전체 삭제") },
+                        text = { Text("전체 항목을 삭제하시겠습니까?") },
+                        confirmButton = {
+                            Button(onClick = {
+                                showDialog = false
+                                onRemoveAllNote()
+                            }) {
+                                Text("예")
+                            }
+                        },
+                        dismissButton = {
+                            Button(onClick = { showDialog = false }) {
+                                Text("아니요")
+                            }
+                        }
+                    )
+                }
             },
         backgroundColor = SkyBlue
         )
@@ -147,12 +180,12 @@ fun NoteRow(
                         showDialog = false
                         onNoteClicked(note)
                     }) {
-                        Text("네")
+                        Text("예")
                     }
                 },
                 dismissButton = {
                     Button(onClick = { showDialog = false }) {
-                        Text("아니오")
+                        Text("아니요")
                     }
                 }
             )

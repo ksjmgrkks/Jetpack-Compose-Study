@@ -36,6 +36,7 @@ class MainActivity : ComponentActivity() {
         NoteScreen(
             notes = noteList,
             onAddNote = { noteViewModel.addNote(it) },
-            onRemoveNote = { noteViewModel.removeNote(it) })
+            onRemoveNote = { noteViewModel.removeNote(it) },
+            onRemoveAllNote = { noteViewModel.removeAllNote()})
     }
 }

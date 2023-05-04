@@ -6,13 +6,17 @@ buildscript {
         room_version = '2.5.1'
         coroutine_version = '1.6.4'
     }
+
+    dependencies {
+        classpath 'com.google.gms:google-services:4.3.15'
+    }
 }
 
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+// 모든 하위 프로젝트 모듈에 공통적인 구성 옵션을 추가할 수 있는 최상위 빌드 파일입니다.
 plugins {
     id 'com.android.application' version '7.4.2' apply false
     id 'com.android.library' version '7.4.2' apply false
-    // https://developer.android.com/jetpack/androidx/releases/compose-kotlin
+    // 참고: https://developer.android.com/jetpack/androidx/releases/compose-kotlin
     id 'org.jetbrains.kotlin.android' version '1.8.0' apply false
     id 'com.google.dagger.hilt.android' version '2.44' apply false
 }

@@ -21,14 +21,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.google.firebase.auth.FirebaseAuth
+import com.kks.readerapp.components.ReaderLogo
 import com.kks.readerapp.navigation.ReaderScreens
-import com.kks.readerapp.ui.theme.LogoGreen
-import com.kks.readerapp.ui.theme.LogoLightGreen
+import com.kks.readerapp.ui.theme.AppGreen
+import com.kks.readerapp.ui.theme.AppLightGreen
 import kotlinx.coroutines.delay
 
 @Composable
@@ -44,7 +43,7 @@ fun SplashScreen(navController: NavController = NavController(context = LocalCon
                         .getInterpolation(it)
                 })
         )
-        delay(1000L)
+        delay(2000L)
 
         navController.navigate(ReaderScreens.LoginScreen.name)
     }
@@ -56,21 +55,18 @@ fun SplashScreen(navController: NavController = NavController(context = LocalCon
         shape = CircleShape,
         color = Color.White,
         border = BorderStroke(width = 5.dp,
-            color = LogoLightGreen)
+            color = AppLightGreen)
     ) {
         Column(
             modifier = Modifier.padding(1.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Text(text = "책을 읽어요",
-                modifier = Modifier.padding(bottom = 16.dp),
-                style = MaterialTheme.typography.h3,
-                color = LogoGreen)
+            ReaderLogo()
             Spacer(modifier = Modifier.height(15.dp))
             Text(text = "\"책 읽기와 글쓰기를 통해 성장하기 \"",
                 style = MaterialTheme.typography.h6,
-                color = LogoGreen.copy(alpha = 0.5f))
+                color = AppGreen.copy(alpha = 0.5f))
         }
     }
 }

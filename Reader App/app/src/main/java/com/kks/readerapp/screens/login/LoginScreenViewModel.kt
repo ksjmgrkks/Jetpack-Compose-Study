@@ -1,6 +1,7 @@
 package com.kks.readerapp.screens.login
 
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -27,18 +28,14 @@ class LoginScreenViewModel : ViewModel() {
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             Log.d("signInWithEmailAndPassword", "task.isSuccessful: ${task.result}")
-                            //Todo: take them home
                             home()
                         } else {
-                            Log.d(
-                                "signInWithEmailAndPassword",
-                                "!task.isSuccessful: ${task.result}"
-                            )
+//                            Log.d(
+//                                "signInWithEmailAndPassword",
+//                                "!task.isSuccessful: ${task.result.toString()}"
+//                            )
                         }
-
-
                     }
-
             } catch (e: Exception) {
                 Log.d("signInWithEmailAndPassword", "catch: ${e.message}")
             }
@@ -58,7 +55,7 @@ class LoginScreenViewModel : ViewModel() {
                         createUser(displayName)
                         home()
                     }else {
-                        Log.d("signInWithEmailAndPassword", "createUserWithEmailAndPassword: ${task.result}")
+//                        Log.d("signInWithEmailAndPassword", "createUserWithEmailAndPassword: ${task.result}")
                     }
                     _loading.value = false
                 }

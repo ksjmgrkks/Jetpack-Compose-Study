@@ -35,11 +35,14 @@ import com.kks.readerapp.components.EmailInput
 import com.kks.readerapp.components.PasswordInput
 import com.kks.readerapp.components.ReaderLogo
 import com.kks.readerapp.components.SubmitButton
+import com.kks.readerapp.navigation.ReaderScreens
 import com.kks.readerapp.ui.theme.AppGreen
 
 @Composable
-fun LoginScreen(navController: NavController) {
-
+fun LoginScreen(
+    navController: NavController,
+    viewModel: LoginScreenViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
+) {
     val showLoginForm = rememberSaveable { mutableStateOf(true) }
 
     Surface(modifier = Modifier.fillMaxSize()) {
@@ -49,11 +52,15 @@ fun LoginScreen(navController: NavController) {
             ReaderLogo()
             if (showLoginForm.value)
                 UserForm(loading = false, isCreateAccount = false) { email, password ->
-
+                    viewModel.signInWithEmailAndPassword(email, password){
+                        navController.navigate(ReaderScreens.HomeScreen.name)
+                    }
             }
             else {
                 UserForm(loading = false, isCreateAccount = true) { email, password ->
-
+                    viewModel.createUserWithEmailAndPassword(email, password) {
+                        navController.navigate(ReaderScreens.HomeScreen.name)
+                    }
                 }
             }
         }

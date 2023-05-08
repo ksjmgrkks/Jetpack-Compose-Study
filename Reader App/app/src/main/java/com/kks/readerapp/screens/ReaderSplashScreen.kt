@@ -24,6 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.google.firebase.auth.FirebaseAuth
 import com.kks.readerapp.components.ReaderLogo
 import com.kks.readerapp.navigation.ReaderScreens
 import com.kks.readerapp.ui.theme.AppGreen
@@ -44,6 +45,11 @@ fun SplashScreen(navController: NavController = NavController(context = LocalCon
                 })
         )
         delay(2000L)
+//        if (FirebaseAuth.getInstance().currentUser?.email.isNullOrEmpty()){
+//            navController.navigate(ReaderScreens.LoginScreen.name)
+//        }else {
+//            navController.navigate(ReaderScreens.HomeScreen.name)
+//        }
 
         navController.navigate(ReaderScreens.LoginScreen.name)
     }

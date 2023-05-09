@@ -12,6 +12,7 @@ import com.kks.readerapp.screens.home.HomeScreen
 import com.kks.readerapp.screens.home.HomeScreenViewModel
 import com.kks.readerapp.screens.login.LoginScreen
 import com.kks.readerapp.screens.search.BookSearchScreen
+import com.kks.readerapp.screens.search.BooksSearchViewModel
 import com.kks.readerapp.screens.stats.ReaderStatsScreen
 
 @Composable
@@ -37,7 +38,8 @@ fun ReaderNavigation() {
         }
 
         composable(ReaderScreens.BookSearchScreen.name) {
-            BookSearchScreen(navController = navController)
+            val searchViewModel = hiltViewModel<BooksSearchViewModel>()
+            BookSearchScreen(navController = navController, viewModel = searchViewModel)
         }
     }
 }

@@ -4,10 +4,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.input.key.Key.Companion.Home
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.kks.readerapp.screens.SplashScreen
+import com.kks.readerapp.screens.details.BookDetailsScreen
 import com.kks.readerapp.screens.home.HomeScreen
 import com.kks.readerapp.screens.home.HomeScreenViewModel
 import com.kks.readerapp.screens.login.LoginScreen
@@ -40,6 +43,15 @@ fun ReaderNavigation() {
         composable(ReaderScreens.BookSearchScreen.name) {
             val searchViewModel = hiltViewModel<BooksSearchViewModel>()
             BookSearchScreen(navController = navController, viewModel = searchViewModel)
+        }
+
+        val detailName = ReaderScreens.BookDetailsScreen.name
+        composable("$detailName/{bookId}", arguments = listOf(navArgument("bookId"){
+            type = NavType.StringType
+        })) { backStackEntry ->
+            backStackEntry.arguments?.getString("bookId").let {
+                BookDetailsScreen(navController = navController, bookId = it.toString())
+            }
         }
     }
 }

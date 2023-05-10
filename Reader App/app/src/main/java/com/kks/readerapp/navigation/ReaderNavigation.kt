@@ -17,6 +17,7 @@ import com.kks.readerapp.screens.login.LoginScreen
 import com.kks.readerapp.screens.search.BookSearchScreen
 import com.kks.readerapp.screens.search.BooksSearchViewModel
 import com.kks.readerapp.screens.stats.ReaderStatsScreen
+import com.kks.readerapp.screens.update.BookUpdateScreen
 
 @Composable
 fun ReaderNavigation() {
@@ -53,5 +54,18 @@ fun ReaderNavigation() {
                 BookDetailsScreen(navController = navController, bookId = it.toString())
             }
         }
+
+        val updateName = ReaderScreens.BookUpdateScreen.name
+        composable("$updateName/{bookItemId}",
+            arguments = listOf(navArgument("bookItemId") {
+                type = NavType.StringType
+            })) { navBackStackEntry ->
+
+            navBackStackEntry.arguments?.getString("bookItemId").let {
+                BookUpdateScreen(navController = navController, bookItemId = it.toString())
+            }
+
+        }
+
     }
 }

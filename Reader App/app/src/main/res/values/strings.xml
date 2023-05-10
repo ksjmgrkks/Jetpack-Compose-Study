@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">Reader App</string>
     <string name="login_invalid_format_notification">6자 이상의 올바른 형식의 이메일과 비밀번호를 입력하세요.</string>
+    <string name="sure">이 책을 삭제하시겠습니까?</string>
+    <string name="action">이 작업은 되돌릴 수 없습니다.</string>
 </resources>

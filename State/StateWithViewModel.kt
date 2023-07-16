@@ -3,6 +3,12 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.material.Button
+import androidx.compose.material.Text
+import androidx.compose.runtime.getValue
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 class MyViewModel: ViewModel() {
     // MutableStateFlow로 선언
@@ -15,13 +21,6 @@ class MyViewModel: ViewModel() {
         }
     }
 }
-
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.material.Button
-import androidx.compose.material.Text
-import androidx.compose.runtime.getValue
-import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun MyScreen(myViewModel: MyViewModel = viewModel()) {

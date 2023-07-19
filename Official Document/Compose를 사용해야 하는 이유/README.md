@@ -1,3 +1,5 @@
+링크: https://developer.android.com/jetpack/compose/why-adopt?hl=ko  
+</br>
 ## Compose를 채택하는 이유
 Jetpack Compose는 네이티브 UI를 빌드하기 위한 Android의 최신 툴킷입니다.  
 더 적은 수의 코드, 강력한 도구, 직관적인 Kotlin API로 Android에서의 UI 개발을 간소화하고 가속화하여 앱에 생동감을 더해줍니다.  

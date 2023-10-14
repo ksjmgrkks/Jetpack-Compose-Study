@@ -28,6 +28,7 @@ fun MyScreen(myViewModel: MyViewModel = viewModel()) {
     val count by myViewModel.count.collectAsState()
 
     Button(onClick = { myViewModel.incrementCount() }) {
+         // 상태인 count가 변하면 Text 컴포저블이 recomposition됨
         Text("Clicked $count times")
     }
 }

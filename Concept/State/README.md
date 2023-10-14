@@ -1,6 +1,7 @@
 # [State]
 ##### Jetpack Compose에서 state는 앱의 UI가 현재 어떤 상태에 있는지를 나타내는 데이터입니다.
 ##### 예를 들어, 체크 박스의 상태는 체크되었는지 아닌지를 나타냅니다. 또한, state는 UI에서 변경될 수 있습니다.
+##### UI 상태 생성하기 : https://developer.android.com/topic/architecture/ui-layer/state-production?hl=ko#compose-state
 </br>
 
 # [Remember]
